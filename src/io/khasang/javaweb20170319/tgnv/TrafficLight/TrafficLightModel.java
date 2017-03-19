@@ -31,8 +31,8 @@ public class TrafficLightModel extends Observable implements Runnable {
             while (true) {
                 switch (state) {
                     case GREEN:
-                        if (greenSignalDuration >= 2) {
-                            sleep((greenSignalDuration - 2) * 1000);
+                        if (greenSignalDuration >= 3) {
+                            sleep((greenSignalDuration - 3) * 1000);
                             state = TrafficLightSignal.BLINKING_GREEN;
                         }
                         else {
@@ -41,7 +41,7 @@ public class TrafficLightModel extends Observable implements Runnable {
                         }
                         break;
                     case BLINKING_GREEN:
-                        sleep(2 * 1000);
+                        sleep(3 * 1000);
                         state = TrafficLightSignal.YELLOW;
                         break;
                     case YELLOW:
@@ -49,8 +49,8 @@ public class TrafficLightModel extends Observable implements Runnable {
                         state = TrafficLightSignal.RED;
                         break;
                     case RED:
-                        if (redSignalDuration >= 2) {
-                            sleep((redSignalDuration - 2) * 1000);
+                        if (redSignalDuration >= 3) {
+                            sleep((redSignalDuration - 3) * 1000);
                             state = TrafficLightSignal.RED_YELLOW;
                         }
                         else {
@@ -59,7 +59,7 @@ public class TrafficLightModel extends Observable implements Runnable {
                         }
                         break;
                     case RED_YELLOW:
-                        sleep(2 * 1000);
+                        sleep(3 * 1000);
                         state = TrafficLightSignal.GREEN;
                         break;
                     default:
