@@ -36,7 +36,6 @@ public class TrafficLight implements Observer {
             model.setYellowSignalDuration(view.getYellowSignalDuration());
             model.setGreenSignalDuration(view.getGreenSignalDuration());
         }
-
     }
 }
 

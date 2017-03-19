@@ -6,7 +6,6 @@ package io.khasang.javaweb20170319.tgnv.TrafficLight;
 import java.util.NoSuchElementException;
 import java.util.Observable;
 import java.util.Scanner;
-
 import static java.lang.Thread.sleep;
 
 
@@ -24,15 +23,16 @@ public class TrafficLightView extends Observable implements Runnable {
         this.redSignalDuration = redSignalDuration;
         this.yellowSignalDuration = yellowSignalDuration;
         this.greenSignalDuration = greenSignalDuration;
-        Thread viewTread = new Thread(this, "TrafficLightView");
-        viewTread.start();
+        Thread viewThread = new Thread(this, "TrafficLightView");
+        viewThread.start();
     }
 
     public void run() {
         showGreetings();
         System.out.println("");
-        System.out.println("Please enter Traffic Light parameters:");
-        if (showSettingsDialog() == true) {
+        System.out.println("Please enter the Traffic Light parameters:");
+        if (showSettingsDialog()) {
+            setChanged();
             notifyObservers();
         }
         while (true) {
@@ -41,30 +41,26 @@ public class TrafficLightView extends Observable implements Runnable {
 
             System.out.print("\u2503 ");
             if (state == TrafficLightSignal.RED || state == TrafficLightSignal.RED_YELLOW) {
-                System.out.print("\u001b[1;31m");
+                System.out.print("\u001b[1m\u001b[31m");
             }
-            System.out.print("\u25cf \u2503");
-            System.out.println("\u001b[0m");
+            System.out.println("\u25cf\u001b[0m \u2503");
 
             System.out.println("\u2523\u2501\u2501\u2501\u252b");
 
             System.out.print("\u2503 ");
             if (state == TrafficLightSignal.YELLOW || state == TrafficLightSignal.RED_YELLOW) {
-                System.out.print("\u001b[1;33m");
-            }
-            System.out.print("\u25cf \u2503");
-            System.out.println("\u001b[0m");
+                System.out.print("\u001b[1m\u001b[33m");            }
+            System.out.println("\u25cf\u001b[0m \u2503");
 
             System.out.println("\u2523\u2501\u2501\u2501\u252b");
 
             System.out.print("\u2503 ");
             if (state == TrafficLightSignal.GREEN) {
-                System.out.print("\u001b[1;32m");
+                System.out.print("\u001b[1m\u001b[32m");
             } else if (state == TrafficLightSignal.BLINKING_GREEN) {
                 System.out.print("\u001b[1;5;32m");
             }
-            System.out.print("\u25cf \u2503");
-            System.out.println("\u001b[0m");
+            System.out.println("\u25cf\u001b[0m \u2503");
 
             System.out.println("\u2517\u2501\u2501\u2501\u251b");
 
@@ -106,7 +102,7 @@ public class TrafficLightView extends Observable implements Runnable {
     }
 
     private void clearScreen() {
-        System.out.println("\u001b[1;1H\u001b[2J");
+        System.out.print("\u001b[1;1H\u001b[2J");
     }
 
     private void showGreetings() {
@@ -171,7 +167,7 @@ public class TrafficLightView extends Observable implements Runnable {
         int result;
 
         while (true) {
-            System.out.print(prompt + " (" + defaultValue + "):");
+            System.out.print(prompt + " (" + defaultValue + "): ");
             try {
                 s = scanner.nextLine();
             } catch (NoSuchElementException ex1) {
@@ -195,6 +191,7 @@ public class TrafficLightView extends Observable implements Runnable {
                 System.out.println("Signal duration must be entered as positive integer in seconds");
                 continue;
             }
+            break;
         }
         return result;
     }

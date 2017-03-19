@@ -22,8 +22,8 @@ public class TrafficLightModel extends Observable implements Runnable {
         yellowSignalDuration = 2;
         greenSignalDuration = 20;
 
-        Thread modelTread = new Thread(this, "TrafficLightModel");
-        modelTread.start();
+        Thread modelThread = new Thread(this, "TrafficLightModel");
+        modelThread.start();
     }
 
     public void run() {
@@ -66,6 +66,7 @@ public class TrafficLightModel extends Observable implements Runnable {
                         state = TrafficLightSignal.GREEN;
                         break;
                 }
+                setChanged();
                 notifyObservers();
             }
         }
